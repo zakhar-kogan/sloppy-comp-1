@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Coding Agent Benchmark Visualizations</title>
+<style>
+:root { color-scheme: light; --ink:#17202a; --muted:#5c6773; --line:#d8dee4; --bg:#f8fafc; --card:#ffffff; }
+body { margin: 0; font: 14px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: var(--ink); background: var(--bg); }
+main { max-width: 1180px; margin: 0 auto; padding: 32px 24px 56px; }
+h1 { margin: 0 0 4px; font-size: 30px; }
+h2 { margin: 34px 0 8px; font-size: 22px; }
+p { margin: 6px 0 14px; color: var(--muted); }
+table { width: 100%; border-collapse: collapse; background: var(--card); box-shadow: 0 1px 2px rgba(0,0,0,.04); }
+th, td { border: 1px solid var(--line); padding: 8px 9px; vertical-align: top; }
+th { text-align: left; background: #f1f5f9; }
+.center { text-align: center; }
+.grid { display: grid; gap: 16px; }
+.grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 10px; overflow-x: auto; }
+.wide { grid-column: 1 / -1; }
+svg { width: 100%; height: auto; }
+.axis { stroke: #64748b; stroke-width: 1; }
+.gridline { stroke: #e2e8f0; stroke-width: 1; }
+.svg-title { text-anchor: middle; font-size: 17px; font-weight: 700; fill: var(--ink); }
+.axis-label { text-anchor: middle; font-size: 12px; fill: var(--muted); }
+.rotate { transform: rotate(-90deg); transform-origin: 18px 210px; }
+.small-label { font-size: 11px; fill: var(--ink); }
+.tick { text-anchor: middle; font-size: 11px; fill: var(--muted); }
+.right { text-anchor: end; }
+.legend { font-size: 12px; fill: var(--muted); }
+summary { cursor: pointer; margin: 12px 0; }
+pre { white-space: pre-wrap; background: #0f172a; color: #e2e8f0; padding: 14px; border-radius: 8px; overflow-x: auto; }
+@media (max-width: 820px) { .grid.two { grid-template-columns: 1fr; } .wide { grid-column: auto; } }
+</style>
+</head>
+<body>
+<main>
+  <h1>AI Coding Agent Benchmark Visualizations</h1>
+  <p>Source: <code>summary.md</code>. Scope: local exploratory benchmark, not statistically powered. Codex / Opus 4.6 is excluded because routing failed.</p>
+  
+<section>
+  <h2>5. Model-shift slopegraphs</h2>
+  <p>Codex is omitted here because Opus 4.6 did not run through the local proxy.</p>
+  <div class="grid two">
+    <div class="card"><svg viewBox="0 0 650 320" role="img" aria-label="Fresh tokens"><text x="300" y="24" class="svg-title">Fresh tokens</text><text x="110" y="52" class="axis-label">GPT-5.4</text><text x="470" y="52" class="axis-label">Opus 4.6</text><line x1="140" y1="60" x2="140" y2="295" class="axis"/><line x1="500" y1="60" x2="500" y2="295" class="axis"/><line x1="140" y1="265.5" x2="500" y2="280.0" stroke="#dc2626" stroke-width="3"/><circle cx="140" cy="265.5" r="5" fill="#dc2626"/><circle cx="500" cy="280.0" r="5" fill="#dc2626"/><text x="12" y="269.5" class="small-label">OMP 66K</text><text x="512" y="284.0" class="small-label">40K</text><line x1="140" y1="231.0" x2="500" y2="254.2" stroke="#f59e0b" stroke-width="3"/><circle cx="140" cy="231.0" r="5" fill="#f59e0b"/><circle cx="500" cy="254.2" r="5" fill="#f59e0b"/><text x="12" y="235.0" class="small-label">OpenCode 127K</text><text x="512" y="258.2" class="small-label">86K</text><line x1="140" y1="242.9" x2="500" y2="60.0" stroke="#7c3aed" stroke-width="3"/><circle cx="140" cy="242.9" r="5" fill="#7c3aed"/><circle cx="500" cy="60.0" r="5" fill="#7c3aed"/><text x="12" y="246.9" class="small-label">Claude Code 106K</text><text x="512" y="64.0" class="small-label">429K</text></svg></div>
+    <div class="card"><svg viewBox="0 0 650 320" role="img" aria-label="Duration minutes"><text x="300" y="24" class="svg-title">Duration minutes</text><text x="110" y="52" class="axis-label">GPT-5.4</text><text x="470" y="52" class="axis-label">Opus 4.6</text><line x1="140" y1="60" x2="140" y2="295" class="axis"/><line x1="500" y1="60" x2="500" y2="295" class="axis"/><line x1="140" y1="60.0" x2="500" y2="271.8" stroke="#dc2626" stroke-width="3"/><circle cx="140" cy="60.0" r="5" fill="#dc2626"/><circle cx="500" cy="271.8" r="5" fill="#dc2626"/><text x="12" y="64.0" class="small-label">OMP 10.0m</text><text x="512" y="275.8" class="small-label">2.3m</text><line x1="140" y1="280.0" x2="500" y2="244.2" stroke="#f59e0b" stroke-width="3"/><circle cx="140" cy="280.0" r="5" fill="#f59e0b"/><circle cx="500" cy="244.2" r="5" fill="#f59e0b"/><text x="12" y="284.0" class="small-label">OpenCode 2.0m</text><text x="512" y="248.2" class="small-label">3.3m</text><line x1="140" y1="280.0" x2="500" y2="222.2" stroke="#7c3aed" stroke-width="3"/><circle cx="140" cy="280.0" r="5" fill="#7c3aed"/><circle cx="500" cy="222.2" r="5" fill="#7c3aed"/><text x="12" y="284.0" class="small-label">Claude Code 2.0m</text><text x="512" y="226.2" class="small-label">4.1m</text></svg></div>
+    <div class="card wide"><svg viewBox="0 0 650 320" role="img" aria-label="Feature quality score"><text x="300" y="24" class="svg-title">Feature quality score</text><text x="110" y="52" class="axis-label">GPT-5.4</text><text x="470" y="52" class="axis-label">Opus 4.6</text><line x1="140" y1="60" x2="140" y2="295" class="axis"/><line x1="500" y1="60" x2="500" y2="295" class="axis"/><line x1="140" y1="60.0" x2="500" y2="60.0" stroke="#dc2626" stroke-width="3"/><circle cx="140" cy="60.0" r="5" fill="#dc2626"/><circle cx="500" cy="60.0" r="5" fill="#dc2626"/><text x="12" y="64.0" class="small-label">OMP 83/100</text><text x="512" y="64.0" class="small-label">83/100</text><line x1="140" y1="197.5" x2="500" y2="115.0" stroke="#f59e0b" stroke-width="3"/><circle cx="140" cy="197.5" r="5" fill="#f59e0b"/><circle cx="500" cy="115.0" r="5" fill="#f59e0b"/><text x="12" y="201.5" class="small-label">OpenCode 42/100</text><text x="512" y="119.0" class="small-label">67/100</text><line x1="140" y1="225.0" x2="500" y2="280.0" stroke="#7c3aed" stroke-width="3"/><circle cx="140" cy="225.0" r="5" fill="#7c3aed"/><circle cx="500" cy="280.0" r="5" fill="#7c3aed"/><text x="12" y="229.0" class="small-label">Claude Code 33/100</text><text x="512" y="284.0" class="small-label">17/100</text></svg></div>
+  </div>
+</section>
+
+  
+<section>
+  <h2>6. Pareto chart</h2>
+  <p>Upper-left is preferred: shorter duration with higher feature quality. Bubble size shows fresh token cost.</p>
+  <div class="card"><svg viewBox="0 0 760 460" role="img" aria-label="Pareto chart: duration versus quality score"><text x="380" y="24" class="svg-title">Pareto view: faster + higher quality is better</text><line x1="90" y1="385" x2="720" y2="385" class="axis"/><line x1="90" y1="45" x2="90" y2="385" class="axis"/><text x="360" y="430" class="axis-label">Duration, minutes lower is better</text><text x="18" y="210" class="axis-label rotate">Quality score higher is better</text><line x1="90.0" y1="385" x2="90.0" y2="390" class="axis"/><text x="90.0" y="407" class="tick">0</text><line x1="210.0" y1="385" x2="210.0" y2="390" class="axis"/><text x="210.0" y="407" class="tick">2</text><line x1="330.0" y1="385" x2="330.0" y2="390" class="axis"/><text x="330.0" y="407" class="tick">4</text><line x1="450.0" y1="385" x2="450.0" y2="390" class="axis"/><text x="450.0" y="407" class="tick">6</text><line x1="570.0" y1="385" x2="570.0" y2="390" class="axis"/><text x="570.0" y="407" class="tick">8</text><line x1="690.0" y1="385" x2="690.0" y2="390" class="axis"/><text x="690.0" y="407" class="tick">10</text><line x1="85" y1="385.0" x2="90" y2="385.0" class="axis"/><line x1="90" y1="385.0" x2="720" y2="385.0" class="gridline"/><text x="78" y="389.0" class="tick right">0</text><line x1="85" y1="300.0" x2="90" y2="300.0" class="axis"/><line x1="90" y1="300.0" x2="720" y2="300.0" class="gridline"/><text x="78" y="304.0" class="tick right">25</text><line x1="85" y1="215.0" x2="90" y2="215.0" class="axis"/><line x1="90" y1="215.0" x2="720" y2="215.0" class="gridline"/><text x="78" y="219.0" class="tick right">50</text><line x1="85" y1="130.0" x2="90" y2="130.0" class="axis"/><line x1="90" y1="130.0" x2="720" y2="130.0" class="gridline"/><text x="78" y="134.0" class="tick right">75</text><line x1="85" y1="45.0" x2="90" y2="45.0" class="axis"/><line x1="90" y1="45.0" x2="720" y2="45.0" class="gridline"/><text x="78" y="49.0" class="tick right">100</text><circle cx="330.0" cy="101.7" r="8.6" fill="#2563eb" fill-opacity="0.72"><title>Codex / GPT-5.4: 83/100, 4.0m, 37K fresh tokens</title></circle><text x="342.6" y="105.7" class="small-label">Codex GPT</text><circle cx="690.0" cy="101.7" r="9.8" fill="#2563eb" fill-opacity="0.72"><title>OMP / GPT-5.4: 83/100, 10.0m, 66K fresh tokens</title></circle><text x="703.8" y="105.7" class="small-label">OMP GPT</text><circle cx="210.0" cy="243.3" r="12.3" fill="#2563eb" fill-opacity="0.72"><title>OpenCode / GPT-5.4: 42/100, 2.0m, 127K fresh tokens</title></circle><text x="226.3" y="247.3" class="small-label">OpenCode GPT</text><circle cx="210.0" cy="271.7" r="11.5" fill="#2563eb" fill-opacity="0.72"><title>Claude Code / GPT-5.4: 33/100, 2.0m, 106K fresh tokens</title></circle><text x="225.5" y="275.7" class="small-label">Claude GPT</text><circle cx="228.0" cy="101.7" r="8.7" fill="#7c3aed" fill-opacity="0.72"><title>OMP / Opus 4.6: 83/100, 2.3m, 40K fresh tokens</title></circle><text x="240.7" y="105.7" class="small-label">OMP Opus</text><circle cx="288.0" cy="158.3" r="10.6" fill="#7c3aed" fill-opacity="0.72"><title>OpenCode / Opus 4.6: 67/100, 3.3m, 86K fresh tokens</title></circle><text x="302.6" y="162.3" class="small-label">OpenCode Opus</text><circle cx="336.0" cy="328.3" r="25.0" fill="#7c3aed" fill-opacity="0.72"><title>Claude Code / Opus 4.6: 17/100, 4.1m, 429K fresh tokens</title></circle><text x="365.0" y="332.3" class="small-label">Claude Opus</text><text x="510" y="58" class="legend">Bubble size = fresh tokens</text><circle cx="530" cy="82" r="10" fill="#2563eb" fill-opacity="0.72"/><text x="548" y="87" class="legend">GPT-5.4</text><circle cx="530" cy="108" r="10" fill="#7c3aed" fill-opacity="0.72"/><text x="548" y="113" class="legend">Opus 4.6</text></svg></div>
+  <details><summary>Point values</summary><ul><li><strong>OpenCode / GPT-5.4:</strong> 42/100, 2.0m, 127K fresh tokens.</li><li><strong>Claude Code / GPT-5.4:</strong> 33/100, 2.0m, 106K fresh tokens.</li><li><strong>OMP / Opus 4.6:</strong> 83/100, 2.3m, 40K fresh tokens.</li><li><strong>OpenCode / Opus 4.6:</strong> 67/100, 3.3m, 86K fresh tokens.</li><li><strong>Codex / GPT-5.4:</strong> 83/100, 4.0m, 37K fresh tokens.</li><li><strong>Claude Code / Opus 4.6:</strong> 17/100, 4.1m, 429K fresh tokens.</li><li><strong>OMP / GPT-5.4:</strong> 83/100, 10.0m, 66K fresh tokens.</li></ul></details>
+</section>
+
+  
+<section>
+  <h2>1. Quality heatmap</h2>
+  <p>Feature score counts yes=1, partial=0.5, no=0. It is a correctness checklist, not a statistical quality model.</p>
+  <table>
+    <thead><tr><th>Run</th><th>Pagination</th><th>Timeout</th><th>API header</th><th>Clean JSON</th><th>Separate tests</th><th>Live demo</th><th>Score</th><th>Main defect</th></tr></thead>
+    <tbody><tr><th>OMP / Opus 4.6</th><td class="center" style="background:#b7e4c7">Yes</td><td class="center" style="background:#b7e4c7">Yes</td><td class="center" style="background:#f1f3f5">No</td><td class="center" style="background:#b7e4c7">Yes</td><td class="center" style="background:#b7e4c7">Yes</td><td class="center" style="background:#b7e4c7">Yes</td><td>83</td><td>No fetch/network unit tests; no deterministic tie-breaker.</td></tr><tr><th>Codex / GPT-5.4</th><td class="center" style="background:#b7e4c7">Yes</td><td class="center" style="background:#f1f3f5">No</td><td class="center" style="background:#b7e4c7">Yes</td><td class="center" style="background:#b7e4c7">Yes</td><td class="center" style="background:#b7e4c7">Yes</td><td class="center" style="background:#b7e4c7">Yes</td><td>83</td><td>No timeout; silent 100-page cap.</td></tr><tr><th>OMP / GPT-5.4</th><td class="center" style="background:#b7e4c7">Yes</td><td class="center" style="background:#b7e4c7">Yes</td><td class="center" style="background:#b7e4c7">Yes</td><td class="center" style="background:#f1f3f5">No</td><td class="center" style="background:#b7e4c7">Yes</td><td class="center" style="background:#b7e4c7">Yes</td><td>83</td><td>JSON emits full GitHub blob; over-structured.</td></tr><tr><th>OpenCode / Opus 4.6</th><td class="center" style="background:#b7e4c7">Yes</td><td class="center" style="background:#f1f3f5">No</td><td class="center" style="background:#f1f3f5">No</td><td class="center" style="background:#b7e4c7">Yes</td><td class="center" style="background:#b7e4c7">Yes</td><td class="center" style="background:#b7e4c7">Yes</td><td>67</td><td>No timeout; weaker error-path coverage.</td></tr><tr><th>OpenCode / GPT-5.4</th><td class="center" style="background:#f1f3f5">No</td><td class="center" style="background:#f1f3f5">No</td><td class="center" style="background:#f1f3f5">No</td><td class="center" style="background:#b7e4c7">Yes</td><td class="center" style="background:#b7e4c7">Yes</td><td class="center" style="background:#ffe8a3">Partial</td><td>42</td><td>Missing pagination; wrong output on first run.</td></tr><tr><th>Claude Code / GPT-5.4</th><td class="center" style="background:#f1f3f5">No</td><td class="center" style="background:#f1f3f5">No</td><td class="center" style="background:#f1f3f5">No</td><td class="center" style="background:#f1f3f5">No</td><td class="center" style="background:#b7e4c7">Yes</td><td class="center" style="background:#b7e4c7">Yes</td><td>33</td><td>Missing pagination; raw GitHub field names.</td></tr><tr><th>Claude Code / Opus 4.6</th><td class="center" style="background:#b7e4c7">Yes</td><td class="center" style="background:#f1f3f5">No</td><td class="center" style="background:#f1f3f5">No</td><td class="center" style="background:#f1f3f5">No</td><td class="center" style="background:#f1f3f5">No</td><td class="center" style="background:#f1f3f5">No</td><td>17</td><td>Tests embedded in production CLI file; no live verification.</td></tr></tbody>
+  </table>
+</section>
+
+  
+<section>
+  <h2>7. Defect severity matrix</h2>
+  <p>Severity is qualitative and derived from the review findings in <code>summary.md</code>. Total is High=3, Medium=2, Low=1, None=0.</p>
+  <table>
+    <thead><tr><th>Run</th><th>Correctness</th><th>Robustness</th><th>Output contract</th><th>Test quality</th><th>Verification</th><th>Total</th><th>Finding basis</th></tr></thead>
+    <tbody><tr><th>Codex / GPT-5.4</th><td class="center" style="background:#fff3bf">Low</td><td class="center" style="background:#ffd8a8">Medium</td><td class="center" style="background:#e7f6ec">None</td><td class="center" style="background:#e7f6ec">None</td><td class="center" style="background:#e7f6ec">None</td><td class="center">3</td><td>No timeout; silent 100-page cap.</td></tr><tr><th>OMP / GPT-5.4</th><td class="center" style="background:#e7f6ec">None</td><td class="center" style="background:#e7f6ec">None</td><td class="center" style="background:#ffd8a8">Medium</td><td class="center" style="background:#fff3bf">Low</td><td class="center" style="background:#e7f6ec">None</td><td class="center">3</td><td>JSON emits full GitHub blob; over-structured.</td></tr><tr><th>OpenCode / GPT-5.4</th><td class="center" style="background:#ffa8a8">High</td><td class="center" style="background:#ffd8a8">Medium</td><td class="center" style="background:#ffd8a8">Medium</td><td class="center" style="background:#fff3bf">Low</td><td class="center" style="background:#ffd8a8">Medium</td><td class="center">10</td><td>Missing pagination; wrong output on first run.</td></tr><tr><th>Claude Code / GPT-5.4</th><td class="center" style="background:#ffa8a8">High</td><td class="center" style="background:#ffd8a8">Medium</td><td class="center" style="background:#ffd8a8">Medium</td><td class="center" style="background:#fff3bf">Low</td><td class="center" style="background:#e7f6ec">None</td><td class="center">8</td><td>Missing pagination; raw GitHub field names.</td></tr><tr><th>OMP / Opus 4.6</th><td class="center" style="background:#fff3bf">Low</td><td class="center" style="background:#e7f6ec">None</td><td class="center" style="background:#e7f6ec">None</td><td class="center" style="background:#ffd8a8">Medium</td><td class="center" style="background:#e7f6ec">None</td><td class="center">3</td><td>No fetch/network unit tests; no deterministic tie-breaker.</td></tr><tr><th>OpenCode / Opus 4.6</th><td class="center" style="background:#fff3bf">Low</td><td class="center" style="background:#ffd8a8">Medium</td><td class="center" style="background:#e7f6ec">None</td><td class="center" style="background:#ffd8a8">Medium</td><td class="center" style="background:#fff3bf">Low</td><td class="center">6</td><td>No timeout; weaker error-path coverage.</td></tr><tr><th>Claude Code / Opus 4.6</th><td class="center" style="background:#ffa8a8">High</td><td class="center" style="background:#ffd8a8">Medium</td><td class="center" style="background:#ffa8a8">High</td><td class="center" style="background:#ffa8a8">High</td><td class="center" style="background:#ffa8a8">High</td><td class="center">14</td><td>Tests embedded in production CLI file; no live verification.</td></tr></tbody>
+  </table>
+</section>
+
+  <section>
+    <h2>Source data embedded in report</h2>
+    <details><summary>Show JSON</summary><pre>[
+  {
+    &quot;run&quot;: &quot;Codex / GPT-5.4&quot;,
+    &quot;tool&quot;: &quot;Codex&quot;,
+    &quot;model&quot;: &quot;GPT-5.4&quot;,
+    &quot;duration_min&quot;: 4.0,
+    &quot;fresh_tokens&quot;: 37000,
+    &quot;peak_rss_mb&quot;: 69.9,
+    &quot;features&quot;: {
+      &quot;Pagination&quot;: 1,
+      &quot;Timeout&quot;: 0,
+      &quot;API header&quot;: 1,
+      &quot;Clean JSON&quot;: 1,
+      &quot;Separate tests&quot;: 1,
+      &quot;Live demo&quot;: 1
+    },
+    &quot;defect&quot;: &quot;No timeout; silent 100-page cap.&quot;,
+    &quot;severity&quot;: {
+      &quot;Correctness&quot;: &quot;Low&quot;,
+      &quot;Robustness&quot;: &quot;Medium&quot;,
+      &quot;Output contract&quot;: &quot;None&quot;,
+      &quot;Test quality&quot;: &quot;None&quot;,
+      &quot;Verification&quot;: &quot;None&quot;
+    },
+    &quot;quality_score&quot;: 83.3
+  },
+  {
+    &quot;run&quot;: &quot;OMP / GPT-5.4&quot;,
+    &quot;tool&quot;: &quot;OMP&quot;,
+    &quot;model&quot;: &quot;GPT-5.4&quot;,
+    &quot;duration_min&quot;: 10.0,
+    &quot;fresh_tokens&quot;: 66000,
+    &quot;peak_rss_mb&quot;: 305.0,
+    &quot;features&quot;: {
+      &quot;Pagination&quot;: 1,
+      &quot;Timeout&quot;: 1,
+      &quot;API header&quot;: 1,
+      &quot;Clean JSON&quot;: 0,
+      &quot;Separate tests&quot;: 1,
+      &quot;Live demo&quot;: 1
+    },
+    &quot;defect&quot;: &quot;JSON emits full GitHub blob; over-structured.&quot;,
+    &quot;severity&quot;: {
+      &quot;Correctness&quot;: &quot;None&quot;,
+      &quot;Robustness&quot;: &quot;None&quot;,
+      &quot;Output contract&quot;: &quot;Medium&quot;,
+      &quot;Test quality&quot;: &quot;Low&quot;,
+      &quot;Verification&quot;: &quot;None&quot;
+    },
+    &quot;quality_score&quot;: 83.3
+  },
+  {
+    &quot;run&quot;: &quot;OpenCode / GPT-5.4&quot;,
+    &quot;tool&quot;: &quot;OpenCode&quot;,
+    &quot;model&quot;: &quot;GPT-5.4&quot;,
+    &quot;duration_min&quot;: 2.0,
+    &quot;fresh_tokens&quot;: 127000,
+    &quot;peak_rss_mb&quot;: 462.0,
+    &quot;features&quot;: {
+      &quot;Pagination&quot;: 0,
+      &quot;Timeout&quot;: 0,
+      &quot;API header&quot;: 0,
+      &quot;Clean JSON&quot;: 1,
+      &quot;Separate tests&quot;: 1,
+      &quot;Live demo&quot;: 0.5
+    },
+    &quot;defect&quot;: &quot;Missing pagination; wrong output on first run.&quot;,
+    &quot;severity&quot;: {
+      &quot;Correctness&quot;: &quot;High&quot;,
+      &quot;Robustness&quot;: &quot;Medium&quot;,
+      &quot;Output contract&quot;: &quot;Medium&quot;,
+      &quot;Test quality&quot;: &quot;Low&quot;,
+      &quot;Verification&quot;: &quot;Medium&quot;
+    },
+    &quot;quality_score&quot;: 41.7
+  },
+  {
+    &quot;run&quot;: &quot;Claude Code / GPT-5.4&quot;,
+    &quot;tool&quot;: &quot;Claude Code&quot;,
+    &quot;model&quot;: &quot;GPT-5.4&quot;,
+    &quot;duration_min&quot;: 2.0,
+    &quot;fresh_tokens&quot;: 106000,
+    &quot;peak_rss_mb&quot;: 406.5,
+    &quot;features&quot;: {
+      &quot;Pagination&quot;: 0,
+      &quot;Timeout&quot;: 0,
+      &quot;API header&quot;: 0,
+      &quot;Clean JSON&quot;: 0,
+      &quot;Separate tests&quot;: 1,
+      &quot;Live demo&quot;: 1
+    },
+    &quot;defect&quot;: &quot;Missing pagination; raw GitHub field names.&quot;,
+    &quot;severity&quot;: {
+      &quot;Correctness&quot;: &quot;High&quot;,
+      &quot;Robustness&quot;: &quot;Medium&quot;,
+      &quot;Output contract&quot;: &quot;Medium&quot;,
+      &quot;Test quality&quot;: &quot;Low&quot;,
+      &quot;Verification&quot;: &quot;None&quot;
+    },
+    &quot;quality_score&quot;: 33.3
+  },
+  {
+    &quot;run&quot;: &quot;OMP / Opus 4.6&quot;,
+    &quot;tool&quot;: &quot;OMP&quot;,
+    &quot;model&quot;: &quot;Opus 4.6&quot;,
+    &quot;duration_min&quot;: 2.3,
+    &quot;fresh_tokens&quot;: 40478,
+    &quot;peak_rss_mb&quot;: 451.6,
+    &quot;features&quot;: {
+      &quot;Pagination&quot;: 1,
+      &quot;Timeout&quot;: 1,
+      &quot;API header&quot;: 0,
+      &quot;Clean JSON&quot;: 1,
+      &quot;Separate tests&quot;: 1,
+      &quot;Live demo&quot;: 1
+    },
+    &quot;defect&quot;: &quot;No fetch/network unit tests; no deterministic tie-breaker.&quot;,
+    &quot;severity&quot;: {
+      &quot;Correctness&quot;: &quot;Low&quot;,
+      &quot;Robustness&quot;: &quot;None&quot;,
+      &quot;Output contract&quot;: &quot;None&quot;,
+      &quot;Test quality&quot;: &quot;Medium&quot;,
+      &quot;Verification&quot;: &quot;None&quot;
+    },
+    &quot;quality_score&quot;: 83.3
+  },
+  {
+    &quot;run&quot;: &quot;OpenCode / Opus 4.6&quot;,
+    &quot;tool&quot;: &quot;OpenCode&quot;,
+    &quot;model&quot;: &quot;Opus 4.6&quot;,
+    &quot;duration_min&quot;: 3.3,
+    &quot;fresh_tokens&quot;: 85983,
+    &quot;peak_rss_mb&quot;: 347.4,
+    &quot;features&quot;: {
+      &quot;Pagination&quot;: 1,
+      &quot;Timeout&quot;: 0,
+      &quot;API header&quot;: 0,
+      &quot;Clean JSON&quot;: 1,
+      &quot;Separate tests&quot;: 1,
+      &quot;Live demo&quot;: 1
+    },
+    &quot;defect&quot;: &quot;No timeout; weaker error-path coverage.&quot;,
+    &quot;severity&quot;: {
+      &quot;Correctness&quot;: &quot;Low&quot;,
+      &quot;Robustness&quot;: &quot;Medium&quot;,
+      &quot;Output contract&quot;: &quot;None&quot;,
+      &quot;Test quality&quot;: &quot;Medium&quot;,
+      &quot;Verification&quot;: &quot;Low&quot;
+    },
+    &quot;quality_score&quot;: 66.7
+  },
+  {
+    &quot;run&quot;: &quot;Claude Code / Opus 4.6&quot;,
+    &quot;tool&quot;: &quot;Claude Code&quot;,
+    &quot;model&quot;: &quot;Opus 4.6&quot;,
+    &quot;duration_min&quot;: 4.1,
+    &quot;fresh_tokens&quot;: 428588,
+    &quot;peak_rss_mb&quot;: 319.0,
+    &quot;features&quot;: {
+      &quot;Pagination&quot;: 1,
+      &quot;Timeout&quot;: 0,
+      &quot;API header&quot;: 0,
+      &quot;Clean JSON&quot;: 0,
+      &quot;Separate tests&quot;: 0,
+      &quot;Live demo&quot;: 0
+    },
+    &quot;defect&quot;: &quot;Tests embedded in production CLI file; no live verification.&quot;,
+    &quot;severity&quot;: {
+      &quot;Correctness&quot;: &quot;High&quot;,
+      &quot;Robustness&quot;: &quot;Medium&quot;,
+      &quot;Output contract&quot;: &quot;High&quot;,
+      &quot;Test quality&quot;: &quot;High&quot;,
+      &quot;Verification&quot;: &quot;High&quot;
+    },
+    &quot;quality_score&quot;: 16.7
+  }
+]</pre></details>
+  </section>
+</main>
+</body>
+</html>

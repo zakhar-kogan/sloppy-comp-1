@@ -1,0 +1,13 @@
+<svg viewBox="0 0 650 320" role="img" aria-label="Duration minutes">
+
+<style>
+.axis { stroke: #64748b; stroke-width: 1; }
+.gridline { stroke: #e2e8f0; stroke-width: 1; }
+.svg-title { text-anchor: middle; font: 700 17px -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #17202a; }
+.axis-label { text-anchor: middle; font: 12px -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #5c6773; }
+.small-label { font: 11px -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #17202a; }
+.tick { text-anchor: middle; font: 11px -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #5c6773; }
+.right { text-anchor: end; }
+.legend { font: 12px -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #5c6773; }
+</style>
+<text x="300" y="24" class="svg-title">Duration minutes</text><text x="110" y="52" class="axis-label">GPT-5.4</text><text x="470" y="52" class="axis-label">Opus 4.6</text><line x1="140" y1="60" x2="140" y2="295" class="axis"/><line x1="500" y1="60" x2="500" y2="295" class="axis"/><line x1="140" y1="60.0" x2="500" y2="271.8" stroke="#dc2626" stroke-width="3"/><circle cx="140" cy="60.0" r="5" fill="#dc2626"/><circle cx="500" cy="271.8" r="5" fill="#dc2626"/><text x="12" y="64.0" class="small-label">OMP 10.0m</text><text x="512" y="275.8" class="small-label">2.3m</text><line x1="140" y1="280.0" x2="500" y2="244.2" stroke="#f59e0b" stroke-width="3"/><circle cx="140" cy="280.0" r="5" fill="#f59e0b"/><circle cx="500" cy="244.2" r="5" fill="#f59e0b"/><text x="12" y="284.0" class="small-label">OpenCode 2.0m</text><text x="512" y="248.2" class="small-label">3.3m</text><line x1="140" y1="280.0" x2="500" y2="222.2" stroke="#7c3aed" stroke-width="3"/><circle cx="140" cy="280.0" r="5" fill="#7c3aed"/><circle cx="500" cy="222.2" r="5" fill="#7c3aed"/><text x="12" y="284.0" class="small-label">Claude Code 2.0m</text><text x="512" y="226.2" class="small-label">4.1m</text></svg>

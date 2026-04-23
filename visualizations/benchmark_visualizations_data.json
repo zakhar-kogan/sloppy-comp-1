@@ -1,0 +1,177 @@
+[
+  {
+    "run": "Codex / GPT-5.4",
+    "tool": "Codex",
+    "model": "GPT-5.4",
+    "duration_min": 4.0,
+    "fresh_tokens": 37000,
+    "peak_rss_mb": 69.9,
+    "features": {
+      "Pagination": 1,
+      "Timeout": 0,
+      "API header": 1,
+      "Clean JSON": 1,
+      "Separate tests": 1,
+      "Live demo": 1
+    },
+    "defect": "No timeout; silent 100-page cap.",
+    "severity": {
+      "Correctness": "Low",
+      "Robustness": "Medium",
+      "Output contract": "None",
+      "Test quality": "None",
+      "Verification": "None"
+    },
+    "quality_score": 83.3
+  },
+  {
+    "run": "OMP / GPT-5.4",
+    "tool": "OMP",
+    "model": "GPT-5.4",
+    "duration_min": 10.0,
+    "fresh_tokens": 66000,
+    "peak_rss_mb": 305.0,
+    "features": {
+      "Pagination": 1,
+      "Timeout": 1,
+      "API header": 1,
+      "Clean JSON": 0,
+      "Separate tests": 1,
+      "Live demo": 1
+    },
+    "defect": "JSON emits full GitHub blob; over-structured.",
+    "severity": {
+      "Correctness": "None",
+      "Robustness": "None",
+      "Output contract": "Medium",
+      "Test quality": "Low",
+      "Verification": "None"
+    },
+    "quality_score": 83.3
+  },
+  {
+    "run": "OpenCode / GPT-5.4",
+    "tool": "OpenCode",
+    "model": "GPT-5.4",
+    "duration_min": 2.0,
+    "fresh_tokens": 127000,
+    "peak_rss_mb": 462.0,
+    "features": {
+      "Pagination": 0,
+      "Timeout": 0,
+      "API header": 0,
+      "Clean JSON": 1,
+      "Separate tests": 1,
+      "Live demo": 0.5
+    },
+    "defect": "Missing pagination; wrong output on first run.",
+    "severity": {
+      "Correctness": "High",
+      "Robustness": "Medium",
+      "Output contract": "Medium",
+      "Test quality": "Low",
+      "Verification": "Medium"
+    },
+    "quality_score": 41.7
+  },
+  {
+    "run": "Claude Code / GPT-5.4",
+    "tool": "Claude Code",
+    "model": "GPT-5.4",
+    "duration_min": 2.0,
+    "fresh_tokens": 106000,
+    "peak_rss_mb": 406.5,
+    "features": {
+      "Pagination": 0,
+      "Timeout": 0,
+      "API header": 0,
+      "Clean JSON": 0,
+      "Separate tests": 1,
+      "Live demo": 1
+    },
+    "defect": "Missing pagination; raw GitHub field names.",
+    "severity": {
+      "Correctness": "High",
+      "Robustness": "Medium",
+      "Output contract": "Medium",
+      "Test quality": "Low",
+      "Verification": "None"
+    },
+    "quality_score": 33.3
+  },
+  {
+    "run": "OMP / Opus 4.6",
+    "tool": "OMP",
+    "model": "Opus 4.6",
+    "duration_min": 2.3,
+    "fresh_tokens": 40478,
+    "peak_rss_mb": 451.6,
+    "features": {
+      "Pagination": 1,
+      "Timeout": 1,
+      "API header": 0,
+      "Clean JSON": 1,
+      "Separate tests": 1,
+      "Live demo": 1
+    },
+    "defect": "No fetch/network unit tests; no deterministic tie-breaker.",
+    "severity": {
+      "Correctness": "Low",
+      "Robustness": "None",
+      "Output contract": "None",
+      "Test quality": "Medium",
+      "Verification": "None"
+    },
+    "quality_score": 83.3
+  },
+  {
+    "run": "OpenCode / Opus 4.6",
+    "tool": "OpenCode",
+    "model": "Opus 4.6",
+    "duration_min": 3.3,
+    "fresh_tokens": 85983,
+    "peak_rss_mb": 347.4,
+    "features": {
+      "Pagination": 1,
+      "Timeout": 0,
+      "API header": 0,
+      "Clean JSON": 1,
+      "Separate tests": 1,
+      "Live demo": 1
+    },
+    "defect": "No timeout; weaker error-path coverage.",
+    "severity": {
+      "Correctness": "Low",
+      "Robustness": "Medium",
+      "Output contract": "None",
+      "Test quality": "Medium",
+      "Verification": "Low"
+    },
+    "quality_score": 66.7
+  },
+  {
+    "run": "Claude Code / Opus 4.6",
+    "tool": "Claude Code",
+    "model": "Opus 4.6",
+    "duration_min": 4.1,
+    "fresh_tokens": 428588,
+    "peak_rss_mb": 319.0,
+    "features": {
+      "Pagination": 1,
+      "Timeout": 0,
+      "API header": 0,
+      "Clean JSON": 0,
+      "Separate tests": 0,
+      "Live demo": 0
+    },
+    "defect": "Tests embedded in production CLI file; no live verification.",
+    "severity": {
+      "Correctness": "High",
+      "Robustness": "Medium",
+      "Output contract": "High",
+      "Test quality": "High",
+      "Verification": "High"
+    },
+    "quality_score": 16.7
+  }
+]

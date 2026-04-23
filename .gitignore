@@ -1,0 +1,17 @@
+.DS_Store
+node_modules/
+dist/
+coverage/
+*.log
+.env
+.env.*
+
+
+codex/
+codex2/
+omp/
+opencode/
+claude-code/
+omp-opus46/
+opencode-opus46/
+claude-opus46/
