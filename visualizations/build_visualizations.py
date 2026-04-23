@@ -229,7 +229,7 @@ def heatmap() -> str:
         )
     return f"""
 <section>
-  <h2>1. Quality heatmap</h2>
+  <h2>Quality heatmap</h2>
   <p>Feature score counts yes=1, partial=0.5, no=0. It is a correctness checklist, not a statistical quality model.</p>
   <table>
     <thead><tr><th>Run</th>{''.join(f'<th>{esc(f)}</th>' for f in FEATURES)}<th>Score</th><th>Main defect</th></tr></thead>
@@ -281,7 +281,7 @@ def slope_svg(metric: str, title: str, fmt) -> str:
 def model_shift() -> str:
     return f"""
 <section>
-  <h2>5. Model-shift slopegraphs</h2>
+  <h2>Model-shift slopegraphs</h2>
   <p>Codex is omitted here because Opus 4.6 did not run through the local proxy.</p>
   <div class="grid two">
     <div class="card">{slope_svg('fresh_tokens', 'Fresh tokens', token_k)}</div>
@@ -345,7 +345,7 @@ def pareto() -> str:
         notes.append(f'<li><strong>{esc(r["run"])}:</strong> {quality_score(r):.0f}/100, {r["duration_min"]:.1f}m, {token_k(r["fresh_tokens"])} fresh tokens.</li>')
     return f"""
 <section>
-  <h2>6. Pareto chart</h2>
+  <h2>Pareto chart</h2>
   <p>Upper-left is preferred: shorter duration with higher feature quality. Bubble size shows fresh token cost.</p>
   <div class="card">{pareto_svg()}</div>
   <details><summary>Point values</summary><ul>{''.join(notes)}</ul></details>
@@ -365,7 +365,7 @@ def defect_matrix() -> str:
         rows.append(f'<tr><th>{esc(run["run"])}</th>{"".join(cells)}<td class="center">{total}</td><td>{esc(run["defect"])}</td></tr>')
     return f"""
 <section>
-  <h2>7. Defect severity matrix</h2>
+  <h2>Defect severity matrix</h2>
   <p>Severity is qualitative and derived from the review findings in <code>summary.md</code>. Total is High=3, Medium=2, Low=1, None=0.</p>
   <table>
     <thead><tr><th>Run</th>{''.join(f'<th>{esc(c)}</th>' for c in SEVERITY_COLS)}<th>Total</th><th>Finding basis</th></tr></thead>
