@@ -9,6 +9,8 @@ from __future__ import annotations
 
 import html
 import json
+import shutil
+import subprocess
 from pathlib import Path
 
 OUT_DIR = Path(__file__).resolve().parent
@@ -308,11 +310,12 @@ def pareto_svg() -> str:
 
     parts = [
         f'<svg viewBox="0 0 {width} {height}" role="img" aria-label="Pareto chart: duration versus quality score">',
+        '<rect width="100%" height="100%" fill="#ffffff"/>',
         '<text x="380" y="24" class="svg-title">Pareto view: faster + higher quality is better</text>',
         f'<line x1="{left}" y1="{height-bottom}" x2="{width-right}" y2="{height-bottom}" class="axis"/>',
         f'<line x1="{left}" y1="{top}" x2="{left}" y2="{height-bottom}" class="axis"/>',
         f'<text x="360" y="430" class="axis-label">Duration, minutes lower is better</text>',
-        f'<text x="18" y="210" class="axis-label rotate">Quality score higher is better</text>',
+        f'<text x="170" y="42" class="axis-label">Quality score, higher is better</text>',
     ]
     for tick in [0, 2, 4, 6, 8, 10]:
         xx = x(tick)
@@ -451,6 +454,8 @@ SVG_STYLE = """
 
 
 def standalone_svg(svg: str) -> str:
+    if not svg.startswith('<svg xmlns="http://www.w3.org/2000/svg"'):
+        svg = svg.replace("<svg ", '<svg xmlns="http://www.w3.org/2000/svg" ', 1)
     return svg.replace(">", ">\n" + SVG_STYLE, 1) + "\n"
 
 
@@ -526,6 +531,21 @@ def write_svg_assets() -> None:
         (OUT_DIR / name).write_text(standalone_svg(svg))
 
 
+def write_png_assets() -> None:
+    converter = shutil.which("rsvg-convert")
+    if converter is None:
+        return
+    for name in (
+        "pareto_duration_quality",
+        "quality_heatmap",
+        "defect_severity_matrix",
+    ):
+        subprocess.run(
+            [converter, str(OUT_DIR / f"{name}.svg"), "-o", str(OUT_DIR / f"{name}.png")],
+            check=True,
+        )
+
+
 def main() -> None:
     data = []
     for run in RUNS:
@@ -535,6 +555,7 @@ def main() -> None:
     (OUT_DIR / "benchmark_visualizations_data.json").write_text(json.dumps(data, indent=2) + "\n")
     (OUT_DIR / "benchmark_visualizations.html").write_text(html_report())
     write_svg_assets()
+    write_png_assets()
 
 
 if __name__ == "__main__":

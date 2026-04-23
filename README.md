@@ -15,17 +15,17 @@ This is an exploratory local-machine benchmark, not a statistically powered benc
 
 Upper-left is better: shorter duration, higher checklist quality. Bubble size is fresh token usage.
 
-<img src="visualizations/pareto_duration_quality.svg" alt="Pareto chart of duration versus quality score">
+<img src="visualizations/pareto_duration_quality.png" alt="Pareto chart of duration versus quality score">
 
 ## Correctness heatmaps
 
 Checklist score uses yes=1, partial=0.5, no=0.
 
-<img src="visualizations/quality_heatmap.svg" alt="Quality heatmap across completed benchmark runs">
+<img src="visualizations/quality_heatmap.png" alt="Quality heatmap across completed benchmark runs">
 
 Severity is qualitative and derived from manual review findings in `summary.md`. Total uses High=3, Medium=2, Low=1, None=0.
 
-<img src="visualizations/defect_severity_matrix.svg" alt="Defect severity matrix across completed benchmark runs">
+<img src="visualizations/defect_severity_matrix.png" alt="Defect severity matrix across completed benchmark runs">
 
 ## More detail
 
