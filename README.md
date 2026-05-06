@@ -2,12 +2,13 @@
 
 Local benchmark comparing Codex, OMP, OpenCode, and Claude Code on the same TypeScript CLI task across GPT-5.4 and Opus 4.6. The task: fetch a GitHub user's public repositories, sort by stars, support table/JSON output, `--limit N`, error handling, and tests.
 
-This is an exploratory local-machine benchmark, not a statistically powered benchmark suite. Codex / Opus 4.6 is excluded from completed-run comparisons because local Claude routing failed through the proxy.
+This is an exploratory local-machine benchmark, not a statistically powered benchmark suite.
 
 ## Key findings
 
-- **OMP / Opus 4.6** was the strongest completed run: fast, low-token, paginated, timeout-aware, clean JSON, separate tests.
-- **Codex / GPT-5.4** was the lightest strong single run, but there was no completed Codex / Opus run.
+- **Codex / Opus 4.6** was the strongest completed run: fastest (~2.0 min), lightest (47.6 MB avg RSS), paginated, timeout-aware, clean JSON, API header, separate tests, live demo.
+- **Codex / GPT-5.4** remains the lightest on fresh tokens (~37K), but lacked a timeout.
+- **OMP / Opus 4.6** had the lowest token count among Opus runs (~40K), with pagination and timeout.
 - **OpenCode** was fast, but the GPT run missed pagination; the Opus run improved materially.
 - **Claude Code** had the weakest reliability profile, especially the Opus run with tests embedded in the production CLI file.
 
@@ -47,3 +48,4 @@ python3 visualizations/build_visualizations.py
 - Some summary values are approximate.
 - GitHub unauthenticated API rate limits affected later live verification checks.
 - GPT-5.4 and Opus 4.6 runs are not perfectly equivalent because tool sandboxes and provider paths differ.
+- Codex Opus 4.6 was routed via omniroute; other tools used quotio. Both resolve to the same underlying model.

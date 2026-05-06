@@ -113,6 +113,30 @@ RUNS = [
         },
     },
     {
+        "run": "Codex / Opus 4.6",
+        "tool": "Codex",
+        "model": "Opus 4.6",
+        "duration_min": 2.0,
+        "fresh_tokens": 57_000,
+        "peak_rss_mb": 73.7,
+        "features": {
+            "Pagination": 1,
+            "Timeout": 1,
+            "API header": 1,
+            "Clean JSON": 1,
+            "Separate tests": 1,
+            "Live demo": 1,
+        },
+        "defect": "10-page pagination cap (1000 repos max).",
+        "severity": {
+            "Correctness": "Low",
+            "Robustness": "None",
+            "Output contract": "None",
+            "Test quality": "None",
+            "Verification": "None",
+        },
+    },
+    {
         "run": "OMP / Opus 4.6",
         "tool": "OMP",
         "model": "Opus 4.6",
@@ -241,8 +265,21 @@ def heatmap() -> str:
 """
 
 
+def _spread_labels(positions: list[tuple[float, int]], min_gap: float = 16) -> list[float]:
+    """Spread label Y positions so they don't overlap. Returns adjusted Y values."""
+    indexed = sorted(positions, key=lambda p: p[0])
+    adjusted = [p[0] for p in indexed]
+    for i in range(1, len(adjusted)):
+        if adjusted[i] - adjusted[i - 1] < min_gap:
+            adjusted[i] = adjusted[i - 1] + min_gap
+    result = [0.0] * len(positions)
+    for i, (_, orig_idx) in enumerate(indexed):
+        result[orig_idx] = adjusted[i]
+    return result
+
+
 def slope_svg(metric: str, title: str, fmt) -> str:
-    tools = ["OMP", "OpenCode", "Claude Code"]
+    tools = ["Codex", "OMP", "OpenCode", "Claude Code"]
     by_tool_model = {(r["tool"], r["model"]): r for r in RUNS}
     values = []
     if metric == "quality":
@@ -258,33 +295,44 @@ def slope_svg(metric: str, title: str, fmt) -> str:
         max_v = min_v + 1
 
     def y(v):
-        return 280 - ((v - min_v) / (max_v - min_v)) * 220
+        return 340 - ((v - min_v) / (max_v - min_v)) * 280
 
     lines = [f'<text x="300" y="24" class="svg-title">{esc(title)}</text>',
              '<text x="110" y="52" class="axis-label">GPT-5.4</text>',
              '<text x="470" y="52" class="axis-label">Opus 4.6</text>',
-             '<line x1="140" y1="60" x2="140" y2="295" class="axis"/>',
-             '<line x1="500" y1="60" x2="500" y2="295" class="axis"/>']
+             '<line x1="140" y1="60" x2="140" y2="355" class="axis"/>',
+             '<line x1="500" y1="60" x2="500" y2="355" class="axis"/>']
+
+    # Collect data points
+    tool_data = []
     for tool in tools:
         gpt_run = by_tool_model[(tool, "GPT-5.4")]
         opus_run = by_tool_model[(tool, "Opus 4.6")]
         gpt = quality_score(gpt_run) if metric == "quality" else gpt_run[metric]
         opus = quality_score(opus_run) if metric == "quality" else opus_run[metric]
-        y1, y2 = y(gpt), y(opus)
+        tool_data.append((tool, gpt, opus, y(gpt), y(opus)))
+
+    # Spread labels to avoid overlap
+    left_positions = [(td[3], i) for i, td in enumerate(tool_data)]
+    right_positions = [(td[4], i) for i, td in enumerate(tool_data)]
+    left_label_y = _spread_labels(left_positions)
+    right_label_y = _spread_labels(right_positions)
+
+    for i, (tool, gpt, opus, y1, y2) in enumerate(tool_data):
         color = TOOL_COLOR[tool]
         lines.append(f'<line x1="140" y1="{y1:.1f}" x2="500" y2="{y2:.1f}" stroke="{color}" stroke-width="3"/>')
         lines.append(f'<circle cx="140" cy="{y1:.1f}" r="5" fill="{color}"/>')
         lines.append(f'<circle cx="500" cy="{y2:.1f}" r="5" fill="{color}"/>')
-        lines.append(f'<text x="12" y="{y1 + 4:.1f}" class="small-label">{esc(tool)} {esc(fmt(gpt))}</text>')
-        lines.append(f'<text x="512" y="{y2 + 4:.1f}" class="small-label">{esc(fmt(opus))}</text>')
-    return f'<svg viewBox="0 0 650 320" role="img" aria-label="{esc(title)}">{"".join(lines)}</svg>'
+        lines.append(f'<text x="12" y="{left_label_y[i] + 4:.1f}" class="small-label">{esc(tool)} {esc(fmt(gpt))}</text>')
+        lines.append(f'<text x="512" y="{right_label_y[i] + 4:.1f}" class="small-label">{esc(fmt(opus))}</text>')
+    return f'<svg viewBox="0 0 650 380" role="img" aria-label="{esc(title)}">{"".join(lines)}</svg>'
 
 
 def model_shift() -> str:
     return f"""
 <section>
   <h2>Model-shift slopegraphs</h2>
-  <p>Codex is omitted here because Opus 4.6 did not run through the local proxy.</p>
+  <p>All four tools were benchmarked on both GPT-5.4 and Opus 4.6.</p>
   <div class="grid two">
     <div class="card">{slope_svg('fresh_tokens', 'Fresh tokens', token_k)}</div>
     <div class="card">{slope_svg('duration_min', 'Duration minutes', lambda v: f'{v:.1f}m')}</div>
@@ -327,7 +375,9 @@ def pareto_svg() -> str:
         parts.append(f'<line x1="{left}" y1="{yy:.1f}" x2="{width-right}" y2="{yy:.1f}" class="gridline"/>')
         parts.append(f'<text x="{left-12}" y="{yy+4:.1f}" class="tick right">{tick}</text>')
 
-    for run in RUNS:
+    def severity_total_html(r):
+        return sum(SEVERITY_SCORE[r["severity"][col]] for col in SEVERITY_COLS)
+    for run in sorted(RUNS, key=lambda r: (severity_total_html(r), r["duration_min"])):
         score = quality_score(run)
         radius = 7 + (run["fresh_tokens"] / max_tokens) * 18
         xx, yy = x(run["duration_min"]), y(score)
@@ -358,7 +408,9 @@ def pareto() -> str:
 
 def defect_matrix() -> str:
     rows = []
-    for run in RUNS:
+    def severity_total_html(r):
+        return sum(SEVERITY_SCORE[r["severity"][col]] for col in SEVERITY_COLS)
+    for run in sorted(RUNS, key=lambda r: (severity_total_html(r), r["duration_min"])):
         cells = []
         total = 0
         for col in SEVERITY_COLS:
@@ -380,7 +432,9 @@ def defect_matrix() -> str:
 
 def html_report() -> str:
     data = []
-    for run in RUNS:
+    def severity_total_html(r):
+        return sum(SEVERITY_SCORE[r["severity"][col]] for col in SEVERITY_COLS)
+    for run in sorted(RUNS, key=lambda r: (severity_total_html(r), r["duration_min"])):
         item = dict(run)
         item["quality_score"] = round(quality_score(run), 1)
         data.append(item)
@@ -424,7 +478,7 @@ pre {{ white-space: pre-wrap; background: #0f172a; color: #e2e8f0; padding: 14px
 <body>
 <main>
   <h1>AI Coding Agent Benchmark Visualizations</h1>
-  <p>Source: <code>summary.md</code>. Scope: local exploratory benchmark, not statistically powered. Codex / Opus 4.6 is excluded because routing failed.</p>
+  <p>Source: <code>summary.md</code>. Scope: local exploratory benchmark, not statistically powered. Codex / Opus 4.6 was routed via omniroute; other tools used quotio. Both resolve to the same underlying model.</p>
   {model_shift()}
   {pareto()}
   {heatmap()}
@@ -501,7 +555,9 @@ def defect_matrix_svg() -> str:
         parts.append(f'<text x="{x + cell_w / 2:.0f}" y="{top + 24}" class="tick">{esc(col)}</text>')
         x += cell_w
     parts.append(f'<text x="{x + total_w / 2:.0f}" y="{top + 24}" class="tick">Total</text>')
-    for i, run in enumerate(RUNS):
+    def severity_total(r):
+        return sum(SEVERITY_SCORE[r["severity"][col]] for col in SEVERITY_COLS)
+    for i, run in enumerate(sorted(RUNS, key=lambda r: (severity_total(r), r["duration_min"]))):
         y = top + header_h + i * row_h
         parts.append(f'<text x="8" y="{y + 23}" class="small-label">{esc(run["run"])}</text>')
         x = label_w
@@ -548,7 +604,9 @@ def write_png_assets() -> None:
 
 def main() -> None:
     data = []
-    for run in RUNS:
+    def severity_total_html(r):
+        return sum(SEVERITY_SCORE[r["severity"][col]] for col in SEVERITY_COLS)
+    for run in sorted(RUNS, key=lambda r: (severity_total_html(r), r["duration_min"])):
         item = dict(run)
         item["quality_score"] = round(quality_score(run), 1)
         data.append(item)
