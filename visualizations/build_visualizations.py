@@ -113,6 +113,30 @@ RUNS = [
         },
     },
     {
+        "run": "Droid / GPT-5.4",
+        "tool": "Droid",
+        "model": "GPT-5.4",
+        "duration_min": 8.3,
+        "fresh_tokens": 67_541,
+        "peak_rss_mb": 336.5,
+        "features": {
+            "Pagination": 0,
+            "Timeout": 0,
+            "API header": 0,
+            "Clean JSON": 0,
+            "Separate tests": 0,
+            "Live demo": 1,
+        },
+        "defect": "Missing pagination; embedded tests run in production CLI; raw JSON field names.",
+        "severity": {
+            "Correctness": "High",
+            "Robustness": "Medium",
+            "Output contract": "Medium",
+            "Test quality": "High",
+            "Verification": "None",
+        },
+    },
+    {
         "run": "Codex / Opus 4.6",
         "tool": "Codex",
         "model": "Opus 4.6",
@@ -208,6 +232,30 @@ RUNS = [
             "Verification": "High",
         },
     },
+    {
+        "run": "Droid / Opus 4.6",
+        "tool": "Droid",
+        "model": "Opus 4.6",
+        "duration_min": 1.3,
+        "fresh_tokens": 2_613,
+        "peak_rss_mb": 249.5,
+        "features": {
+            "Pagination": 1,
+            "Timeout": 0,
+            "API header": 0,
+            "Clean JSON": 1,
+            "Separate tests": 0,
+            "Live demo": 1,
+        },
+        "defect": "No timeout/API version header; tests embedded behind --test; one-tool BYOK workaround.",
+        "severity": {
+            "Correctness": "Low",
+            "Robustness": "Medium",
+            "Output contract": "None",
+            "Test quality": "Medium",
+            "Verification": "Low",
+        },
+    },
 ]
 
 FEATURES = ["Pagination", "Timeout", "API header", "Clean JSON", "Separate tests", "Live demo"]
@@ -216,7 +264,7 @@ SEVERITY_SCORE = {"None": 0, "Low": 1, "Medium": 2, "High": 3}
 SEVERITY_COLOR = {"None": "#e7f6ec", "Low": "#fff3bf", "Medium": "#ffd8a8", "High": "#ffa8a8"}
 FEATURE_COLOR = {0: "#f1f3f5", 0.5: "#ffe8a3", 1: "#b7e4c7"}
 MODEL_COLOR = {"GPT-5.4": "#2563eb", "Opus 4.6": "#7c3aed"}
-TOOL_COLOR = {"Codex": "#16a34a", "OMP": "#dc2626", "OpenCode": "#f59e0b", "Claude Code": "#7c3aed"}
+TOOL_COLOR = {"Codex": "#16a34a", "OMP": "#dc2626", "OpenCode": "#f59e0b", "Claude Code": "#7c3aed", "Droid": "#0891b2"}
 
 
 def esc(value: object) -> str:
@@ -279,7 +327,7 @@ def _spread_labels(positions: list[tuple[float, int]], min_gap: float = 16) -> l
 
 
 def slope_svg(metric: str, title: str, fmt) -> str:
-    tools = ["Codex", "OMP", "OpenCode", "Claude Code"]
+    tools = ["Codex", "OMP", "OpenCode", "Claude Code", "Droid"]
     by_tool_model = {(r["tool"], r["model"]): r for r in RUNS}
     values = []
     if metric == "quality":
@@ -478,7 +526,7 @@ pre {{ white-space: pre-wrap; background: #0f172a; color: #e2e8f0; padding: 14px
 <body>
 <main>
   <h1>AI Coding Agent Benchmark Visualizations</h1>
-  <p>Source: <code>summary.md</code>. Scope: local exploratory benchmark, not statistically powered. Codex / Opus 4.6 was routed via omniroute; other tools used quotio. Both resolve to the same underlying model.</p>
+  <p>Source: <code>summary.md</code>. Scope: local exploratory benchmark, not statistically powered. Codex and Droid Opus 4.6 used omniroute; OMP/OpenCode/Claude Code used quotio or tool-native routing. These resolve to the same underlying model family.</p>
   {model_shift()}
   {pareto()}
   {heatmap()}

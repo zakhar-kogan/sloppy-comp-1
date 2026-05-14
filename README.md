@@ -1,6 +1,6 @@
 # AI Coding Agent Benchmark
 
-Local benchmark comparing Codex, OMP, OpenCode, and Claude Code on the same TypeScript CLI task across GPT-5.4 and Opus 4.6. The task: fetch a GitHub user's public repositories, sort by stars, support table/JSON output, `--limit N`, error handling, and tests.
+Local benchmark comparing Codex, OMP, OpenCode, Claude Code, and Droid on the same TypeScript CLI task across GPT-5.4 and Opus 4.6. The task: fetch a GitHub user's public repositories, sort by stars, support table/JSON output, `--limit N`, error handling, and tests.
 
 This is an exploratory local-machine benchmark, not a statistically powered benchmark suite.
 
@@ -8,7 +8,8 @@ This is an exploratory local-machine benchmark, not a statistically powered benc
 
 - **Codex / Opus 4.6** was the strongest completed run: fastest (~2.0 min), lightest (47.6 MB avg RSS), paginated, timeout-aware, clean JSON, API header, separate tests, live demo.
 - **Codex / GPT-5.4** remains the lightest on fresh tokens (~37K), but lacked a timeout.
-- **OMP / Opus 4.6** had the lowest token count among Opus runs (~40K), with pagination and timeout.
+- **OMP / Opus 4.6** had the lowest reliably accounted token count among Opus runs (~40K), with pagination and timeout.
+- **Droid / Opus 4.6** was the fastest wall-clock run (~1.3 min) and produced a working paginated CLI, but needed a one-tool BYOK workaround and lacked a timeout/API version header.
 - **OpenCode** was fast, but the GPT run missed pagination; the Opus run improved materially.
 - **Claude Code** had the weakest reliability profile, especially the Opus run with tests embedded in the production CLI file.
 
